@@ -1,8 +1,8 @@
 #
-#  The purpose of this Dockerfile is to test out my dotfiles repository
+#  The purpose of this Dockerfile is to test out my dotuser repository
 #
-#	rebuild image: docker build -t dotfiles-tester:latest --build-arg CACHE_DATE=$(date +%Y-%m-%d:%H:%M:%S) .
-#	run container: docker run -it dotfiles-tester /bin/bash
+#	rebuild image: docker build -t dotuser-tester:latest --build-arg CACHE_DATE=$(date +%Y-%m-%d:%H:%M:%S) .
+#	run container: docker run -it dotuser-tester /bin/bash
 
 FROM ubuntu:latest
 
@@ -14,18 +14,18 @@ RUN apt-get update -y && apt-get install -y \
 	vim \
 	sudo
 
-# add dotfiles user
-RUN adduser dotfiles --disabled-password --gecos ""                      && \
+# add dotuser user
+RUN adduser dotuser --disabled-password --gecos ""                      && \
     echo "ALL            ALL = (ALL) NOPASSWD: ALL" >> /etc/sudoers && \
-    chown -R dotfiles:dotfiles /home/dotfiles                                 
+    chown -R dotuser:dotuser /home/dotuser                              
 
-# dotfiles user config
-USER dotfiles
-ENV HOME /home/dotfiles
+# dotuser user config
+USER dotuser
+ENV HOME /home/dotuser
 
 # Hack used to ensure that the git clone isn't cached
 ARG CACHE_DATE=2016-01-01
 
-# get dotfiles
+# get dotuser
 RUN cd $HOME && \ 
     git clone https://github.com/dmorand17/dotfiles.git
