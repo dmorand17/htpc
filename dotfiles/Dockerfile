@@ -23,9 +23,12 @@ RUN adduser dotuser --disabled-password --gecos ""                      && \
 USER dotuser
 ENV HOME /home/dotuser
 
+WORKDIR $HOME
+
 # Hack used to ensure that the git clone isn't cached
 ARG CACHE_DATE=2016-01-01
 
 # get dotuser
 RUN cd $HOME && \ 
     git clone https://github.com/dmorand17/dotfiles.git
+
