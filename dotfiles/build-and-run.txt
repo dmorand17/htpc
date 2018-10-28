@@ -5,9 +5,11 @@ docker build --build-arg CACHE_DATE=$(date +%Y-%m-%d:%H:%M:%S) -t dotfiles-teste
 docker run -it dotfiles-tester /bin/bash
 
 # Testing dotfiles
-cd ~
+cd dotfiles
 ./bootstrap.sh
 
+# Reload bash
+exec bash 
 
 # Docker container/image cleanup
 docker rm $(docker ps -a -q)
