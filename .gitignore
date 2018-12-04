@@ -1,3 +1,2 @@
-radarr/
 plex/
-tautulli/
+**/\.env

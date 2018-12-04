@@ -42,7 +42,6 @@ services:
         restart: unless-stopped
         volumes:
         - /var/run/docker.sock:/var/run/docker.sock
-        - ${DOCKER_VOLUME}/watchtower/config.json:/config.json
 
 networks:
     htpc:
