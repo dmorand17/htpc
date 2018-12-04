@@ -1,19 +1,49 @@
 version: '3'
 
 services:
-  radarr:
-    container_name: radarr
-    image: linuxserver/radarr
-    volumes:
-      - ${MEDIA_HOME}/mybook:/mybook
-      - ${MEDIA_HOME}/myrepo:/myrepo
-      - ${MEDIA_HOME}/mytoshiba1:/mytoshiba1
-      - ${MEDIA_HOME}/toshiba5tb:/toshiba5tb
-      - ${DOCKER_HOME}/radarr:/config
-    ports:
-      - 7878:7878
-    restart: unless-stopped
-    environment:
-      PGUID: 1000
-      PUID: 1000
-      TZ: America/New_York
+    radarr:
+        container_name: radarr
+        image: linuxserver/radarr
+        restart: unless-stopped
+        volumes:
+        - ${MEDIA_HOME}/mymd1:${MEDIA_HOME}/mywd1
+        - ${MEDIA_HOME}/myrepo:${MEDIA_HOME}/myrepo
+        - ${MEDIA_HOME}/mytoshiba1:${MEDIA_HOME}/mytoshiba1
+        - ${MEDIA_HOME}/toshiba5tb:${MEDIA_HOME}/toshiba5tb
+        - /home/dougie/Downloads:/Downloads
+        - ${DOCKER_VOLUME}/radarr:/config
+        ports:
+        - 7878:7878
+        environment:
+        - PUID=${PUID}
+        - PGID=${PGID}
+        - TZ=${TZ}
+        networks:
+            - htpc
+
+    ombi:
+        container_name: ombi
+        image: linuxserver/ombi
+        restart: unless-stopped
+        volumes:
+        - ${DOCKER_VOLUME}/ombi:/config
+        ports:
+        - 3579:3579
+        environment:
+        - PUID=${PUID}
+        - PGID=${PGID}
+        - TZ=${TZ}
+        networks:
+            - htpc
+
+    watchtower:
+        container_name: watchtower
+        image: v2tec/watchtower
+        restart: unless-stopped
+        volumes:
+        - /var/run/docker.sock:/var/run/docker.sock
+        - ${DOCKER_VOLUME}/watchtower/config.json:/config.json
+
+networks:
+    htpc:
+        driver: bridge
