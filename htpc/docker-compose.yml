@@ -6,7 +6,7 @@ services:
         image: linuxserver/radarr
         restart: unless-stopped
         volumes:
-        - ${MEDIA_HOME}/mymd1:${MEDIA_HOME}/mywd1
+        - ${MEDIA_HOME}/mywd1:${MEDIA_HOME}/mywd1
         - ${MEDIA_HOME}/myrepo:${MEDIA_HOME}/myrepo
         - ${MEDIA_HOME}/mytoshiba1:${MEDIA_HOME}/mytoshiba1
         - ${MEDIA_HOME}/toshiba5tb:${MEDIA_HOME}/toshiba5tb
@@ -14,6 +14,24 @@ services:
         - ${DOCKER_VOLUME}/radarr:/config
         ports:
         - 7878:7878
+        environment:
+        - PUID=${PUID}
+        - PGID=${PGID}
+        - TZ=${TZ}
+        networks:
+            - htpc
+
+    sonarr:
+        container_name: sonarr
+        image: linuxserver/sonarr
+        restart: unless-stopped
+        volumes:
+        - ${MEDIA_HOME}/mytoshiba1:${MEDIA_HOME}/mytoshiba1
+        - ${MEDIA_HOME}/toshiba5tb:${MEDIA_HOME}/toshiba5tb
+        - /home/dougie/Downloads:/Downloads
+        - ${DOCKER_VOLUME}/sonarr:/config
+        ports:
+        - 8989:8989
         environment:
         - PUID=${PUID}
         - PGID=${PGID}
