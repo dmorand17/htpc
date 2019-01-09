@@ -1,15 +1,40 @@
 version: '3'
 
 services:
-    radarr:
-        container_name: radarr
-        image: linuxserver/radarr
+    sabnzbd:
+        container_name: sabnzbd
+        image: linuxserver/sabnzbd
         restart: unless-stopped
         volumes:
         - ${MEDIA_HOME}/mywd1:${MEDIA_HOME}/mywd1
         - ${MEDIA_HOME}/myrepo:${MEDIA_HOME}/myrepo
         - ${MEDIA_HOME}/mytoshiba1:${MEDIA_HOME}/mytoshiba1
         - ${MEDIA_HOME}/toshiba5tb:${MEDIA_HOME}/toshiba5tb
+        - ${BUFFALO_HOME}/media:${BUFFALO_HOME}/media
+        - /home/dougie/Downloads:/Downloads
+        - ${DOCKER_VOLUME}/sabnzbd:/config
+        ports:
+        - 8888:8080
+        - 9090:9090
+        environment:
+        - PUID=${PUID}
+        - PGID=${PGID}
+        - TZ=${TZ}
+        networks:
+            - htpc
+
+    radarr:
+        container_name: radarr
+        image: linuxserver/radarr
+        depends_on: 
+        - sabnzbd
+        restart: unless-stopped
+        volumes:
+        - ${MEDIA_HOME}/mywd1:${MEDIA_HOME}/mywd1
+        - ${MEDIA_HOME}/myrepo:${MEDIA_HOME}/myrepo
+        - ${MEDIA_HOME}/mytoshiba1:${MEDIA_HOME}/mytoshiba1
+        - ${MEDIA_HOME}/toshiba5tb:${MEDIA_HOME}/toshiba5tb
+        - ${BUFFALO_HOME}/media:${BUFFALO_HOME}/media
         - /home/dougie/Downloads:/Downloads
         - ${DOCKER_VOLUME}/radarr:/config
         ports:
@@ -24,10 +49,13 @@ services:
     sonarr:
         container_name: sonarr
         image: linuxserver/sonarr
+        depends_on: 
+        - sabnzbd
         restart: unless-stopped
         volumes:
         - ${MEDIA_HOME}/mytoshiba1:${MEDIA_HOME}/mytoshiba1
         - ${MEDIA_HOME}/toshiba5tb:${MEDIA_HOME}/toshiba5tb
+        - ${BUFFALO_HOME}/media:${MEDIA_HOME}/media
         - /home/dougie/Downloads:/Downloads
         - ${DOCKER_VOLUME}/sonarr:/config
         ports:
@@ -54,12 +82,24 @@ services:
         networks:
             - htpc
 
+    organizr:
+        container_name: organizr
+        image: lsiocommunity/organizr
+        restart: unless-stopped
+        ports:
+        - 8899:80
+        environment:
+        - PUID=${PUID}
+        - PGID=${PGID}
+        - TZ=${TZ}
+
     watchtower:
         container_name: watchtower
         image: v2tec/watchtower
         restart: unless-stopped
         volumes:
         - /var/run/docker.sock:/var/run/docker.sock
+          #      - ${DOCKER_VOLUME}/watchtower/config.json:/config.json
 
 networks:
     htpc:
