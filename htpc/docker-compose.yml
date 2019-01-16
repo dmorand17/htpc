@@ -55,7 +55,7 @@ services:
         volumes:
         - ${MEDIA_HOME}/mytoshiba1:${MEDIA_HOME}/mytoshiba1
         - ${MEDIA_HOME}/toshiba5tb:${MEDIA_HOME}/toshiba5tb
-        - ${BUFFALO_HOME}/media:${MEDIA_HOME}/media
+        - ${BUFFALO_HOME}/media:${BUFFALO_HOME}/media
         - /home/dougie/Downloads:/Downloads
         - ${DOCKER_VOLUME}/sonarr:/config
         ports:
