@@ -11,17 +11,17 @@ services:
         - ${MEDIA_HOME}/mytoshiba1:${MEDIA_HOME}/mytoshiba1
         - ${MEDIA_HOME}/toshiba5tb:${MEDIA_HOME}/toshiba5tb
         - ${BUFFALO_HOME}/media:${BUFFALO_HOME}/media
-        - /home/dougie/Downloads:/Downloads
+        - /home/dougie/mywd1/Downloads:/Downloads
         - ${DOCKER_VOLUME}/sabnzbd:/config
         ports:
-        - 8888:8080
+        - 8888:8888
         - 9090:9090
         environment:
         - PUID=${PUID}
         - PGID=${PGID}
         - TZ=${TZ}
         networks:
-            - htpc
+            - dougie-fresh
 
     radarr:
         container_name: radarr
@@ -35,7 +35,7 @@ services:
         - ${MEDIA_HOME}/mytoshiba1:${MEDIA_HOME}/mytoshiba1
         - ${MEDIA_HOME}/toshiba5tb:${MEDIA_HOME}/toshiba5tb
         - ${BUFFALO_HOME}/media:${BUFFALO_HOME}/media
-        - /home/dougie/Downloads:/Downloads
+        - /home/dougie/mywd1/Downloads:/Downloads
         - ${DOCKER_VOLUME}/radarr:/config
         ports:
         - 7878:7878
@@ -44,7 +44,7 @@ services:
         - PGID=${PGID}
         - TZ=${TZ}
         networks:
-            - htpc
+            - dougie-fresh
 
     sonarr:
         container_name: sonarr
@@ -56,7 +56,7 @@ services:
         - ${MEDIA_HOME}/mytoshiba1:${MEDIA_HOME}/mytoshiba1
         - ${MEDIA_HOME}/toshiba5tb:${MEDIA_HOME}/toshiba5tb
         - ${BUFFALO_HOME}/media:${BUFFALO_HOME}/media
-        - /home/dougie/Downloads:/Downloads
+        - /home/dougie/mywd1/Downloads:/Downloads
         - ${DOCKER_VOLUME}/sonarr:/config
         ports:
         - 8989:8989
@@ -65,7 +65,7 @@ services:
         - PGID=${PGID}
         - TZ=${TZ}
         networks:
-            - htpc
+            - dougie-fresh
 
     ombi:
         container_name: ombi
@@ -80,18 +80,20 @@ services:
         - PGID=${PGID}
         - TZ=${TZ}
         networks:
-            - htpc
+            - dougie-fresh
 
     organizr:
         container_name: organizr
         image: lsiocommunity/organizr
         restart: unless-stopped
         ports:
-        - 8899:80
+        - 8899:8899
         environment:
         - PUID=${PUID}
         - PGID=${PGID}
         - TZ=${TZ}
+        networks:
+            - dougie-fresh
 
     watchtower:
         container_name: watchtower
@@ -101,6 +103,24 @@ services:
         - /var/run/docker.sock:/var/run/docker.sock
           #      - ${DOCKER_VOLUME}/watchtower/config.json:/config.json
 
+    production-nginx-container:
+        container_name: 'dougie-fresh-nginx-container'
+        image: nginx:alpine
+        restart: unless-stopped
+        ports:
+        - "80:80"
+        - "443:443"
+        volumes:
+        - ./letsencrypt-nginx/dougie-fresh-nginx.conf:/etc/nginx/conf.d/default.conf
+        - ./letsencrypt-nginx/live:/usr/share/nginx/html
+        - ./letsencrypt-nginx/dh-param/dhparam-2048.pem:/etc/ssl/certs/dhparam-2048.pem
+        - /home/dougie/mywd1/docker-volumes/letsencrypt/etc/letsencrypt/live/dougie-fresh.xyz/fullchain.pem:/etc/letsencrypt/live/dougie-fresh.xyz/fullchain.pem
+        - /home/dougie/mywd1/docker-volumes/letsencrypt/etc/letsencrypt/live/dougie-fresh.xyz/privkey.pem:/etc/letsencrypt/live/dougie-fresh.xyz/privkey.pem
+        networks:
+            - dougie-fresh
+    
+    #network_mode: "host"
+
 networks:
-    htpc:
+    dougie-fresh:
         driver: bridge
