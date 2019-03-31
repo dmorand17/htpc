@@ -1,9 +1,28 @@
 version: '3'
 
 services:
+    plex:
+        container_name: plex
+        image: linuxserver/plex
+        network_mode: host
+        environment:
+        - PUID=${PUID}
+        - PGID=${PGID}
+        - VERSION=docker
+        volumes:
+        - ${MEDIA_HOME}/mywd1/docker-volumes/plex:/config
+        - ${MEDIA_HOME}/myrepo:${MEDIA_HOME}/myrepo
+        - ${MEDIA_HOME}/mytoshiba1:${MEDIA_HOME}/mytoshiba1
+        - ${MEDIA_HOME}/toshiba5tb:${MEDIA_HOME}/toshiba5tb
+        - ${BUFFALO_HOME}/media:${BUFFALO_HOME}/media
+        - ${MEDIA_HOME}/mywd1/docker-volumes/plex/transcode:/transcode
+        restart: unless-stopped
+
     sabnzbd:
         container_name: sabnzbd
         image: linuxserver/sabnzbd
+        depends_on: 
+        - production-nginx-container
         restart: unless-stopped
         volumes:
         - ${MEDIA_HOME}/mywd1:${MEDIA_HOME}/mywd1
@@ -28,6 +47,7 @@ services:
         image: linuxserver/radarr
         depends_on: 
         - sabnzbd
+        - production-nginx-container
         restart: unless-stopped
         volumes:
         - ${MEDIA_HOME}/mywd1:${MEDIA_HOME}/mywd1
@@ -51,6 +71,7 @@ services:
         image: linuxserver/sonarr
         depends_on: 
         - sabnzbd
+        - production-nginx-container
         restart: unless-stopped
         volumes:
         - ${MEDIA_HOME}/mytoshiba1:${MEDIA_HOME}/mytoshiba1
@@ -70,6 +91,9 @@ services:
     ombi:
         container_name: ombi
         image: linuxserver/ombi
+        depends_on: 
+        - sabnzbd
+        - production-nginx-container
         restart: unless-stopped
         volumes:
         - ${DOCKER_VOLUME}/ombi:/config
