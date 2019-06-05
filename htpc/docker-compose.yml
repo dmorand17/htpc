@@ -136,8 +136,9 @@ services:
         - "443:443"
         volumes:
         - ./letsencrypt-nginx/dougie-fresh-nginx.conf:/etc/nginx/conf.d/default.conf
-        - ./letsencrypt-nginx/live:/usr/share/nginx/html
-        - ./letsencrypt-nginx/dh-param/dhparam-2048.pem:/etc/ssl/certs/dhparam-2048.pem
+        - ./letsencrypt-nginx/production-site:/usr/share/nginx/html
+        - /home/dougie/mywd1/docker-volumes/letsencrypt/dh-param/dhparam-2048.pem:/etc/ssl/certs/dhparam-2048.pem
+        - /home/dougie/mywd1/docker-volumes/letsencrypt/data:/data/letsencrypt
         - /home/dougie/mywd1/docker-volumes/letsencrypt/etc/letsencrypt/live/dougie-fresh.xyz/fullchain.pem:/etc/letsencrypt/live/dougie-fresh.xyz/fullchain.pem
         - /home/dougie/mywd1/docker-volumes/letsencrypt/etc/letsencrypt/live/dougie-fresh.xyz/privkey.pem:/etc/letsencrypt/live/dougie-fresh.xyz/privkey.pem
         networks:

@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 docker run -it --rm -v /home/dougie/mywd1/docker-volumes/letsencrypt/etc/letsencrypt:/etc/letsencrypt \
--v //home/dougie/mywd1/docker-volumes/letsencrypt/var/lib/letsencrypt:/var/lib/letsencrypt \
--v /home/dougie/docker/letsencrypt-nginx/live:/data/letsencrypt \
+-v /home/dougie/mywd1/docker-volumes/letsencrypt/var/lib/letsencrypt:/var/lib/letsencrypt \
+-v /home/dougie/mywd1/docker-volumes/letsencrypt/data:/data/letsencrypt \
 -v "/home/dougie/mywd1/docker-volumes/letsencrypt/var/log/letsencrypt:/var/log/letsencrypt" \
 certbot/certbot \
 renew
