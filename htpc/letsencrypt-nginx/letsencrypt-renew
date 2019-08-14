@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+logger "Checking for letsencrypt renewal..."
 docker run -it --rm -v /home/dougie/mywd1/docker-volumes/letsencrypt/etc/letsencrypt:/etc/letsencrypt \
 -v /home/dougie/mywd1/docker-volumes/letsencrypt/var/lib/letsencrypt:/var/lib/letsencrypt \
 -v /home/dougie/mywd1/docker-volumes/letsencrypt/data:/data/letsencrypt \
