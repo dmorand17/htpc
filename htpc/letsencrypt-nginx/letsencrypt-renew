@@ -5,4 +5,6 @@ docker run -it --rm -v /home/dougie/mywd1/docker-volumes/letsencrypt/etc/letsenc
 -v /home/dougie/mywd1/docker-volumes/letsencrypt/data:/data/letsencrypt \
 -v "/home/dougie/mywd1/docker-volumes/letsencrypt/var/log/letsencrypt:/var/log/letsencrypt" \
 certbot/certbot \
-renew
+renew | logger && docker kill --signal=HUP dougie-fresh-nginx-container
+
+logger "Letsencrypt renew finished..."
