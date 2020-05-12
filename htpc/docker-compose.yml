@@ -106,6 +106,24 @@ services:
         networks:
             - dougie-fresh
 
+    plexpy:
+        container_name: plexpy
+        image: linuxserver/plexpy
+        depends_on:
+        - production-nginx-container
+        restart: unless-stopped
+        volumes:
+        - ${MEDIA_HOME}/mywd1/docker-volumes/plex/Application\ Support/Plex\ Media\ Server/Logs:/logs:ro
+        - ${DOCKER_VOLUME}/plexpy:/config
+        ports:
+        - 18181:8181
+        environment:
+        - PUID=${PUID}
+        - PGID=${PGID}
+        - TZ=${TZ}
+        networks:
+            - dougie-fresh
+
     organizr:
         container_name: organizr
         image: lsiocommunity/organizr
