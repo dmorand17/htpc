@@ -149,7 +149,7 @@ services:
         environment:
         - WATCHTOWER_CLEANUP=true
         - WATCHTOWER_NOTIFICATIONS=slack
-        - WATCHTOWER_NOTIFICATION_SLACK_HOOK_URL=https://hooks.slack.com/services/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
+        - WATCHTOWER_NOTIFICATION_SLACK_HOOK_URL=
 
 
     production-nginx-container:
