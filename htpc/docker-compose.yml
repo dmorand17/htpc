@@ -149,8 +149,7 @@ services:
         environment:
         - WATCHTOWER_CLEANUP=true
         - WATCHTOWER_NOTIFICATIONS=slack
-        - WATCHTOWER_NOTIFICATION_SLACK_HOOK_URL=
-
+        - WATCHTOWER_NOTIFICATION_SLACK_HOOK_URL=${SLACK_WEBHOOK}
 
     production-nginx-container:
         container_name: 'dougie-fresh-nginx-container'
