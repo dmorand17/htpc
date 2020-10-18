@@ -23,7 +23,7 @@ services:
         image: linuxserver/sabnzbd
         # build: ./sabnzbd
         depends_on: 
-        - production-nginx-container
+        - production-nginx
         restart: unless-stopped
         volumes:
         - ${MEDIA_HOME}/mywd1:${MEDIA_HOME}/mywd1
@@ -31,7 +31,7 @@ services:
         - ${MEDIA_HOME}/mytoshiba1:${MEDIA_HOME}/mytoshiba1
         - ${MEDIA_HOME}/toshiba5tb:${MEDIA_HOME}/toshiba5tb
         - ${BUFFALO_HOME}/media:${BUFFALO_HOME}/media
-        - /home/dougie/mywd1/Downloads:/Downloads
+        - ${MEDIA_HOME}/mywd1/Downloads:/Downloads
         - ${DOCKER_VOLUME}/sabnzbd:/config
         ports:
         - 8888:8888
@@ -48,7 +48,7 @@ services:
         image: linuxserver/radarr
         depends_on: 
         - sabnzbd
-        - production-nginx-container
+        - production-nginx
         restart: unless-stopped
         volumes:
         - ${MEDIA_HOME}/mywd1:${MEDIA_HOME}/mywd1
@@ -56,7 +56,7 @@ services:
         - ${MEDIA_HOME}/mytoshiba1:${MEDIA_HOME}/mytoshiba1
         - ${MEDIA_HOME}/toshiba5tb:${MEDIA_HOME}/toshiba5tb
         - ${BUFFALO_HOME}/media:${BUFFALO_HOME}/media
-        - /home/dougie/mywd1/Downloads:/Downloads
+        - ${MEDIA_HOME}/mywd1/Downloads:/Downloads
         - ${DOCKER_VOLUME}/radarr:/config
         ports:
         - 7878:7878
@@ -72,13 +72,13 @@ services:
         image: linuxserver/sonarr
         depends_on: 
         - sabnzbd
-        - production-nginx-container
+        - production-nginx
         restart: unless-stopped
         volumes:
         - ${MEDIA_HOME}/mytoshiba1:${MEDIA_HOME}/mytoshiba1
         - ${MEDIA_HOME}/toshiba5tb:${MEDIA_HOME}/toshiba5tb
         - ${BUFFALO_HOME}/media:${BUFFALO_HOME}/media
-        - /home/dougie/mywd1/Downloads:/Downloads
+        - ${MEDIA_HOME}/mywd1/Downloads:/Downloads
         - ${DOCKER_VOLUME}/sonarr:/config
         ports:
         - 8989:8989
@@ -94,7 +94,7 @@ services:
         image: linuxserver/ombi
         depends_on: 
         - sabnzbd
-        - production-nginx-container
+        - production-nginx
         restart: unless-stopped
         volumes:
         - ${DOCKER_VOLUME}/ombi:/config
@@ -111,32 +111,51 @@ services:
         container_name: plexpy
         image: linuxserver/plexpy
         depends_on: 
-        - production-nginx-container
+        - production-nginx
         restart: unless-stopped
         volumes:
-        - ${DOCKER_VOLUME}/plex/Library/Application Support/Plex Media Server/Logs:/logs:ro
-        - ${DOCKER_VOLUME}/plexpy:/config
+          - ${DOCKER_VOLUME}/plex/Library/Application Support/Plex Media Server/Logs:/logs:ro
+          - ${DOCKER_VOLUME}/plexpy:/config
         ports:
-        - 18181:8181
+          - 18181:8181
         environment:
-        - PUID=${PUID}
-        - PGID=${PGID}
-        - TZ=${TZ}
+          - PUID=${PUID}
+          - PGID=${PGID}
+          - TZ=${TZ}
         networks:
-            - dougie-fresh
+          - dougie-fresh
 
     organizr:
         container_name: organizr
         image: lsiocommunity/organizr
         restart: unless-stopped
         ports:
-        - 8899:8899
+          - 8899:8899
         environment:
-        - PUID=${PUID}
-        - PGID=${PGID}
-        - TZ=${TZ}
+          - PUID=${PUID}
+          - PGID=${PGID}
+          - TZ=${TZ}
         networks:
-            - dougie-fresh
+          - dougie-fresh
+
+    portainer:
+        image: portainer/portainer:latest
+        container_name: portainer
+        restart: unless-stopped
+        depends_on:
+          - production-nginx
+        ports:
+          - 19000:9000
+        environment:
+            - PUID=${PUID}
+            - PGID=${PGID}
+            - TZ=${TZ}
+        volumes:
+            - ${DOCKER_VOLUME}/portainer:/data
+            - /var/run/docker.sock:/var/run/docker.sock
+            - /etc/localtime:/etc/localtime:ro
+        networks:
+          - dougie-fresh
 
     watchtower:
         container_name: watchtower
@@ -151,20 +170,19 @@ services:
         - WATCHTOWER_NOTIFICATIONS=slack
         - WATCHTOWER_NOTIFICATION_SLACK_HOOK_URL=${SLACK_WEBHOOK}
 
-    production-nginx-container:
-        container_name: 'dougie-fresh-nginx-container'
+    production-nginx:
+        container_name: 'dougie-fresh-nginx'
         image: nginx:alpine
         restart: unless-stopped
         ports:
         - "80:80"
         - "443:443"
         volumes:
-        - ./letsencrypt-nginx/dougie-fresh-nginx.conf:/etc/nginx/conf.d/default.conf
-        - ./letsencrypt-nginx/production-site:/usr/share/nginx/html
-        - /home/dougie/mywd1/docker-volumes/letsencrypt/dh-param/dhparam-2048.pem:/etc/ssl/certs/dhparam-2048.pem
-        - /home/dougie/mywd1/docker-volumes/letsencrypt/data:/data/letsencrypt
-        - /home/dougie/mywd1/docker-volumes/letsencrypt/etc/letsencrypt/live/dougie-fresh.xyz/fullchain.pem:/etc/letsencrypt/live/dougie-fresh.xyz/fullchain.pem
-        - /home/dougie/mywd1/docker-volumes/letsencrypt/etc/letsencrypt/live/dougie-fresh.xyz/privkey.pem:/etc/letsencrypt/live/dougie-fresh.xyz/privkey.pem
+        - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+        - ./nginx/html:/var/www
+        - ${DOCKER_VOLUME}/letsencrypt/dh-param/dhparam-2048.pem:/etc/ssl/certs/dhparam-2048.pem
+        - ${DOCKER_VOLUME}/letsencrypt/conf/live/dougie-fresh.xyz/fullchain.pem:/etc/letsencrypt/live/dougie-fresh.xyz/fullchain.pem
+        - ${DOCKER_VOLUME}/letsencrypt/conf/live/dougie-fresh.xyz/privkey.pem:/etc/letsencrypt/live/dougie-fresh.xyz/privkey.pem
         networks:
             - dougie-fresh
     

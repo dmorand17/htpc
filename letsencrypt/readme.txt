@@ -8,32 +8,36 @@ docker run -ti --rm --name nginx-letsencrypt \
 nginx:alpine
 
 # Run letsencrypt in test mode
-docker run -it --rm -v /home/dougie/docker-volumes/etc/letsencrypt:/etc/letsencrypt \
+docker run -it --rm \
+-v acme-challenge:/var/www/challenge/.well-known/acme-challenge \
+-v /home/dougie/docker-volumes/etc/letsencrypt:/etc/letsencrypt \
 -v /home/dougie/docker-volumes/var/lib/letsencrypt:/var/lib/letsencrypt \
--v /home/dougie/docker/letsencrypt-docker-nginx/src/letsencrypt/letsencrypt-site:/data/letsencrypt \
+-v /home/dougie/docker/letsencrypt-docker-nginx/src/letsencrypt/letsencrypt-site:/var/www \
 -v "/home/dougie/docker-volumes/var/log/letsencrypt:/var/log/letsencrypt" \
 certbot/certbot \
-certonly --webroot \
+certonly --webroot -w /var/www/challenge \
 --register-unsafely-without-email --agree-tos \
---webroot-path=/data/letsencrypt \
 --staging \
 -d dougie-fresh.xyz
 
 # Run letsencrypt to get prod cert
-docker run -it --rm -v /home/dougie/docker-volumes/letsencrypt/etc/letsencrypt:/etc/letsencrypt \
+docker run -it --rm \
+-v acme-challenge:/var/www/challenge/.well-known/acme-challenge \
+-v /home/dougie/docker-volumes/letsencrypt/etc/letsencrypt:/etc/letsencrypt \
 -v /home/dougie/docker-volumes/letsencrypt/var/lib/letsencrypt:/var/lib/letsencrypt \
--v /home/dougie/docker/letsencrypt-docker-nginx/src/letsencrypt/letsencrypt-site:/data/letsencrypt \
+-v /home/dougie/docker/letsencrypt-docker-nginx/src/letsencrypt/letsencrypt-site:/var/www \
 -v "/home/dougie/docker-volumes/letsencrypt/var/log/letsencrypt:/var/log/letsencrypt" \
 certbot/certbot \
-certonly --webroot \
+certonly --webroot -w /var/www/challenge \
 --email dmorand@gmail.com --agree-tos --no-eff-email \
---webroot-path=/data/letsencrypt \
 -d dougie-fresh.xyz
 
 # Renew certificates
-docker run -it --rm -v /home/dougie/docker-volumes/letsencrypt/etc/letsencrypt:/etc/letsencrypt \
+docker run -it --rm \
+-v acme-challenge:/var/www/challenge/.well-known/acme-challenge \
+-v /home/dougie/docker-volumes/letsencrypt/etc/letsencrypt:/etc/letsencrypt \
 -v /home/dougie/docker-volumes/letsencrypt/var/lib/letsencrypt:/var/lib/letsencrypt \
--v /home/dougie/docker/letsencrypt-docker-nginx/src/letsencrypt/letsencrypt-site:/data/letsencrypt \
+-v /home/dougie/docker/letsencrypt-docker-nginx/src/letsencrypt/letsencrypt-site:/var/www \
 -v "/home/dougie/docker-volumes/letsencrypt/var/log/letsencrypt:/var/log/letsencrypt" \
 certbot/certbot \
 renew --dry-run \
