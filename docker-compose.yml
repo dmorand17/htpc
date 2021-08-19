@@ -157,19 +157,6 @@ services:
         networks:
           - dougie-fresh
 
-            #    watchtower:
-            #        container_name: watchtower
-            #        #image: v2tec/watchtower
-            #        image: containrrr/watchtower
-            #        restart: unless-stopped
-            #        volumes:
-            #        - /var/run/docker.sock:/var/run/docker.sock
-            #          #      - ${DOCKER_VOLUME}/watchtower/config.json:/config.json
-            #        environment:
-            #        - WATCHTOWER_CLEANUP=true
-            #        - WATCHTOWER_NOTIFICATIONS=slack
-            #        - WATCHTOWER_NOTIFICATION_SLACK_HOOK_URL=${SLACK_WEBHOOK}
-
     production-nginx:
         container_name: 'dougie-fresh-nginx'
         image: nginx:alpine
