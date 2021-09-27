@@ -6,4 +6,5 @@ docker run -it --rm \
 certbot/certbot \
 certonly --webroot -w /var/www \
 --email dmorand@gmail.com --agree-tos --no-eff-email \
--d dougie-fresh.xyz --staging --break-my-certs
+-d dougie-fresh.xyz -d dougie-fresh.us \
+--staging --break-my-certs

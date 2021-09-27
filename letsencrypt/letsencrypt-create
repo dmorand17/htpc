@@ -6,4 +6,4 @@ docker run -it --rm \
 certbot/certbot \
 certonly --webroot -w /var/www \
 --email dmorand@gmail.com --agree-tos --no-eff-email \
--d dougie-fresh.xyz
+-d dougie-fresh.xyz -d dougie-fresh.us
