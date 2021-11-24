@@ -1,6 +1,6 @@
 # Rather than using the docker-compose.yml file a container can be spun up as follows
 #
-docker run -ti --rm --name nginx-letsencrypt \
+docker run -it --rm --name nginx-letsencrypt \
 -v $(pwd)/nginx.conf:/etc/nginx/conf.d/default.conf \
 -v $(pwd)/letsencrypt-site:/usr/share/nginx/html \
 -p 80:80 \
@@ -33,7 +33,7 @@ certonly --webroot -w /var/www/challenge \
 -d dougie-fresh.xyz
 
 # Renew certificates
-docker run -it --rm \
+docker run -t --rm \
 -v acme-challenge:/var/www/challenge/.well-known/acme-challenge \
 -v /home/dougie/docker-volumes/letsencrypt/etc/letsencrypt:/etc/letsencrypt \
 -v /home/dougie/docker-volumes/letsencrypt/var/lib/letsencrypt:/var/lib/letsencrypt \

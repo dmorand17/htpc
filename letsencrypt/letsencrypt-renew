@@ -7,6 +7,6 @@ docker run -t --rm \
 -v /home/dougie/htpc/nginx/html:/var/www \
 -v /home/dougie/mywd1/docker-volumes/var/log/letsencrypt:/var/log/letsencrypt \
 certbot/certbot \
-renew | logger && docker restart dougie-fresh-nginx
+renew | logger && docker restart nginx
 
 logger "Letsencrypt renew finished..."
