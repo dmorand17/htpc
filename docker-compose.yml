@@ -4,7 +4,7 @@ services:
     production-nginx:
         container_name: 'nginx'
         image: nginx:alpine
-        restart: always
+        restart: unless-stopped
         ports:
         - "80:80"
         - "443:443"
