@@ -2,7 +2,7 @@
 #
 docker run -it --rm --name nginx-letsencrypt \
 -v $(pwd)/nginx.conf:/etc/nginx/conf.d/default.conf \
--v $(pwd)/letsencrypt-site:/usr/share/nginx/html \
+-v $(pwd)/html:/var/www \
 -p 80:80 \
 -d \
 nginx:alpine
@@ -30,7 +30,7 @@ docker run -it --rm \
 certbot/certbot \
 certonly --webroot -w /var/www/challenge \
 --email dmorand@gmail.com --agree-tos --no-eff-email \
--d dougie-fresh.xyz
+-d dougie-fresh.xyz -d dougie-fresh.us
 
 # Renew certificates
 docker run -t --rm \
