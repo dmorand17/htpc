@@ -27,11 +27,12 @@ while getopts hrb opt; do
 done
 
 if [[ ${BACKUP} != "" ]]; then
+    # Under construction
     echo "Backing up configuration (docker-volumes)"
 
     BACKUP_DATE=$(date +%A)
     BACKUP_FILENAME="docker-volumes-${BACKUP_DATE}.tar.gz"
-    sudo tar czpf /home/dougie/buffalo/backup/docker-volumes/${BACKUP_FILENAME} /media/dougie/mywd1/docker-volumes
+    #sudo tar czpf /home/dougie/buffalo/backup/docker-volumes/${BACKUP_FILENAME} /media/dougie/mywd1/docker-volumes
 fi
 
 # Update images
