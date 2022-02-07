@@ -1,133 +1,150 @@
 version: '3'
 
+networks:
+    htpc_internal:
+        # default driver
+        driver: bridge
 services:
     production-nginx:
         container_name: 'nginx'
         image: nginx:alpine
         restart: unless-stopped
         ports:
-        - "80:80"
-        - "443:443"
+            - "80:80"
+            - "443:443"
         volumes:
-        - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
-        - ./nginx/html:/var/www
-        - ${DOCKER_VOLUME}/letsencrypt/dh-param/dhparam-4096.pem:/etc/ssl/certs/dhparam-4096.pem
-        - ${DOCKER_VOLUME}/letsencrypt/conf/live/dougie-fresh.xyz/fullchain.pem:/etc/letsencrypt/live/dougie-fresh.xyz/fullchain.pem
-        - ${DOCKER_VOLUME}/letsencrypt/conf/live/dougie-fresh.xyz/privkey.pem:/etc/letsencrypt/live/dougie-fresh.xyz/privkey.pem
+            - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+            - ./nginx/html:/var/www
+            - ${DOCKER_VOLUME}/letsencrypt/dh-param/dhparam-4096.pem:/etc/ssl/certs/dhparam-4096.pem
+            - ${DOCKER_VOLUME}/letsencrypt/conf/live/dougie-fresh.xyz/fullchain.pem:/etc/letsencrypt/live/dougie-fresh.xyz/fullchain.pem
+            - ${DOCKER_VOLUME}/letsencrypt/conf/live/dougie-fresh.xyz/privkey.pem:/etc/letsencrypt/live/dougie-fresh.xyz/privkey.pem
         networks:
-            - dougie-fresh
+            - htpc_internal
 
     plex:
         container_name: plex
         image: linuxserver/plex
-        network_mode: host
+        networks:
+            - htpc_internal
         environment:
-        - PUID=${PUID}
-        - PGID=${PGID}
-        - VERSION=latest
+            - PLEX_CLAIM=${PLEX_CLAIM}
+            - ADVERTISE_IP=${PLEX_ADVERTISE_IP}
+            - PUID=${PUID}
+            - PGID=${PGID}
+            - VERSION=latest
         volumes:
-        - ${MEDIA_HOME}/mywd1/docker-volumes/plex:/config
-        - ${MEDIA_HOME}/myrepo:${MEDIA_HOME}/myrepo
-        - ${MEDIA_HOME}/mytoshiba1:${MEDIA_HOME}/mytoshiba1
-        - ${MEDIA_HOME}/toshiba5tb:${MEDIA_HOME}/toshiba5tb
-        - ${BUFFALO_HOME}/media:${BUFFALO_HOME}/media
-        - ${MEDIA_HOME}/mywd1/docker-volumes/plex/transcode:/transcode
+            - ${MEDIA_HOME}/mywd1/docker-volumes/plex:/config
+            - ${MEDIA_HOME}/myrepo:${MEDIA_HOME}/myrepo
+            - ${MEDIA_HOME}/mytoshiba1:${MEDIA_HOME}/mytoshiba1
+            - ${MEDIA_HOME}/toshiba5tb:${MEDIA_HOME}/toshiba5tb
+            - ${BUFFALO_HOME}/media:${BUFFALO_HOME}/media
+            - ${MEDIA_HOME}/mywd1/docker-volumes/plex/transcode:/transcode
+        ports:
+            - '32400:32400'
+            - '3005:3005'
+            - '8324:8324'
+            - '32469:32469'
+            - '1900:1900/udp'
+            - '32410:32410/udp'
+            - '32412:32412/udp'
+            - '32413:32413/udp'
+            - '32414:32414/udp'
         restart: unless-stopped
 
     sabnzbd:
         container_name: sabnzbd
         image: ghcr.io/linuxserver/sabnzbd
         # build: ./sabnzbd
+        networks:
+            - htpc_internal
         depends_on: 
-        - production-nginx
+            - production-nginx
         restart: unless-stopped
         volumes:
-        - ${MEDIA_HOME}/mywd1:${MEDIA_HOME}/mywd1
-        - ${MEDIA_HOME}/myrepo:${MEDIA_HOME}/myrepo
-        - ${MEDIA_HOME}/mytoshiba1:${MEDIA_HOME}/mytoshiba1
-        - ${MEDIA_HOME}/toshiba5tb:${MEDIA_HOME}/toshiba5tb
-        - ${BUFFALO_HOME}/media:${BUFFALO_HOME}/media
-        - ${MEDIA_HOME}/mywd1/Downloads:/Downloads
-        - ${DOCKER_VOLUME}/sabnzbd:/config
+            - ${MEDIA_HOME}/mywd1:${MEDIA_HOME}/mywd1
+            - ${MEDIA_HOME}/myrepo:${MEDIA_HOME}/myrepo
+            - ${MEDIA_HOME}/mytoshiba1:${MEDIA_HOME}/mytoshiba1
+            - ${MEDIA_HOME}/toshiba5tb:${MEDIA_HOME}/toshiba5tb
+            - ${BUFFALO_HOME}/media:${BUFFALO_HOME}/media
+            - ${MEDIA_HOME}/mywd1/Downloads:/Downloads
+            - ${DOCKER_VOLUME}/sabnzbd:/config
         ports:
-        - 8888:8888
-        - 9090:9090
+            - 8888:8888
+            - 9090:9090
         environment:
-        - PUID=${PUID}
-        - PGID=${PGID}
-        - TZ=${TZ}
-        networks:
-            - dougie-fresh
+            - PUID=${PUID}
+            - PGID=${PGID}
+            - TZ=${TZ}
 
     radarr:
         container_name: radarr
         image: linuxserver/radarr
         depends_on: 
-        - sabnzbd
-        - production-nginx
+            - sabnzbd
+            - production-nginx
         restart: unless-stopped
         volumes:
-        - ${MEDIA_HOME}/mywd1:${MEDIA_HOME}/mywd1
-        - ${MEDIA_HOME}/myrepo:${MEDIA_HOME}/myrepo
-        - ${MEDIA_HOME}/mytoshiba1:${MEDIA_HOME}/mytoshiba1
-        - ${MEDIA_HOME}/toshiba5tb:${MEDIA_HOME}/toshiba5tb
-        - ${BUFFALO_HOME}/media:${BUFFALO_HOME}/media
-        - ${MEDIA_HOME}/mywd1/Downloads:/Downloads
-        - ${DOCKER_VOLUME}/radarr:/config
+            - ${MEDIA_HOME}/mywd1:${MEDIA_HOME}/mywd1
+            - ${MEDIA_HOME}/myrepo:${MEDIA_HOME}/myrepo
+            - ${MEDIA_HOME}/mytoshiba1:${MEDIA_HOME}/mytoshiba1
+            - ${MEDIA_HOME}/toshiba5tb:${MEDIA_HOME}/toshiba5tb
+            - ${BUFFALO_HOME}/media:${BUFFALO_HOME}/media
+            - ${MEDIA_HOME}/mywd1/Downloads:/Downloads
+            - ${DOCKER_VOLUME}/radarr:/config
         ports:
-        - 7878:7878
+            - 7878:7878
         environment:
-        - PUID=${PUID}
-        - PGID=${PGID}
-        - TZ=${TZ}
+            - PUID=${PUID}
+            - PGID=${PGID}
+            - TZ=${TZ}
         networks:
-            - dougie-fresh
+            - htpc_internal
 
     sonarr:
         container_name: sonarr
         image: linuxserver/sonarr
         depends_on: 
-        - sabnzbd
-        - production-nginx
+            - sabnzbd
+            - production-nginx
         restart: unless-stopped
         volumes:
-        - ${MEDIA_HOME}/mytoshiba1:${MEDIA_HOME}/mytoshiba1
-        - ${MEDIA_HOME}/toshiba5tb:${MEDIA_HOME}/toshiba5tb
-        - ${BUFFALO_HOME}/media:${BUFFALO_HOME}/media
-        - ${MEDIA_HOME}/mywd1/Downloads:/Downloads
-        - ${DOCKER_VOLUME}/sonarr:/config
+            - ${MEDIA_HOME}/mytoshiba1:${MEDIA_HOME}/mytoshiba1
+            - ${MEDIA_HOME}/toshiba5tb:${MEDIA_HOME}/toshiba5tb
+            - ${BUFFALO_HOME}/media:${BUFFALO_HOME}/media
+            - ${MEDIA_HOME}/mywd1/Downloads:/Downloads
+            - ${DOCKER_VOLUME}/sonarr:/config
         ports:
-        - 8989:8989
+            - 8989:8989
         environment:
-        - PUID=${PUID}
-        - PGID=${PGID}
-        - TZ=${TZ}
+            - PUID=${PUID}
+            - PGID=${PGID}
+            - TZ=${TZ}
         networks:
-            - dougie-fresh
+            - htpc_internal
 
     ombi:
         container_name: ombi
         image: linuxserver/ombi
         depends_on: 
-        - sabnzbd
-        - production-nginx
+            - sabnzbd
+            - production-nginx
         restart: unless-stopped
         volumes:
-        - ${DOCKER_VOLUME}/ombi:/config
+            - ${DOCKER_VOLUME}/ombi:/config
         ports:
-        - 3579:3579
+            - 3579:3579
         environment:
-        - PUID=${PUID}
-        - PGID=${PGID}
-        - TZ=${TZ}
+            - PUID=${PUID}
+            - PGID=${PGID}
+            - TZ=${TZ}
         networks:
-            - dougie-fresh
+            - htpc_internal
 
     tautulli:
         container_name: plexpy
         image: linuxserver/tautulli
         depends_on: 
-        - production-nginx
+            - production-nginx
         restart: unless-stopped
         volumes:
           - ${DOCKER_VOLUME}/plex/Library/Application Support/Plex Media Server/Logs:/logs:ro
@@ -139,7 +156,7 @@ services:
           - PGID=${PGID}
           - TZ=${TZ}
         networks:
-          - dougie-fresh
+          - htpc_internal
 
     organizr:
         container_name: organizr
@@ -152,7 +169,7 @@ services:
           - PGID=${PGID}
           - TZ=${TZ}
         networks:
-          - dougie-fresh
+          - htpc_internal
 
     portainer:
         image: portainer/portainer-ce:latest
@@ -171,10 +188,4 @@ services:
             - /var/run/docker.sock:/var/run/docker.sock
             - /etc/localtime:/etc/localtime:ro
         networks:
-          - dougie-fresh
-    
-    #network_mode: "host"
-
-networks:
-    dougie-fresh:
-        driver: bridge
+          - htpc_internal

@@ -3,7 +3,7 @@ version: '3.1'
 services:
 
   letsencrypt-nginx:
-    container_name: 'letsencrypt-nginx'
+    container_name: 'nginx-letsencrypt'
     image: nginx:alpine
     ports:
       - "80:80"
