@@ -9,9 +9,9 @@ nginx:alpine
 
 # Run letsencrypt in test mode
 docker run -it --rm \
--v /home/dougie/docker-volumes/letsencrypt/conf:/etc/letsencrypt \
--v /home/dougie/docker-volumes/var/lib/letsencrypt:/var/lib/letsencrypt \
--v "/home/dougie/docker-volumes/var/log/letsencrypt:/var/log/letsencrypt" \
+-v /home/dougie/htpc-letsencrypt/conf:/etc/letsencrypt \
+-v /home/dougie/htpc-letsencrypt/lib:/var/lib/letsencrypt \
+-v /home/dougie/htpc-letsencrypt/log:/var/log/letsencrypt \
 -v /home/dougie/htpc/letsencrypt/html:/var/www \
 certbot/certbot \
 certonly --webroot -w /var/www \
@@ -21,9 +21,9 @@ certonly --webroot -w /var/www \
 
 # Run letsencrypt to get prod cert
 docker run -it --rm \
--v /home/dougie/docker-volumes/letsencrypt/conf:/etc/letsencrypt \
--v /home/dougie/docker-volumes/letsencrypt/var/lib/letsencrypt:/var/lib/letsencrypt \
--v "/home/dougie/docker-volumes/letsencrypt/var/log/letsencrypt:/var/log/letsencrypt" \
+-v /home/dougie/htpc-letsencrypt/conf:/etc/letsencrypt \
+-v /home/dougie/htpc-letsencrypt/lib:/var/lib/letsencrypt \
+-v /home/dougie/htpc-letsencrypt/log:/var/log/letsencrypt \
 -v /home/dougie/htpc/letsencrypt/html:/var/www \
 certbot/certbot \
 certonly --webroot -w /var/www \
@@ -32,9 +32,9 @@ certonly --webroot -w /var/www \
 
 # Renew certificates
 docker run -t --rm \
--v /home/dougie/docker-volumes/letsencrypt/conf:/etc/letsencrypt \
--v /home/dougie/docker-volumes/letsencrypt/var/lib/letsencrypt:/var/lib/letsencrypt \
--v "/home/dougie/docker-volumes/letsencrypt/var/log/letsencrypt:/var/log/letsencrypt" \
+-v /home/dougie/htpc-letsencrypt/conf:/etc/letsencrypt \
+-v /home/dougie/htpc-letsencrypt/lib:/var/lib/letsencrypt \
+-v /home/dougie/htpc-letsencrypt/log:/var/log/letsencrypt \
 -v /home/dougie/htpc/letsencrypt/html:/var/www \
 certbot/certbot \
 renew --dry-run \

@@ -2,25 +2,37 @@
 
 usage() {
 cat << HEREDOC
-Usage: htpc-upgrade [-h] [-r]
+Usage: htpc-upgrade [-h] [-r] [-b]
     -h  display help
     -r  restart containers
+    -b  backup configuration
 HEREDOC
     exit 1
 }
 
 RESTART=""
+BACKUP=""
 
-while getopts hr opt; do
+while getopts hrb opt; do
     case "${opt}" in
         h) usage
             ;;
         r) RESTART="true"
             ;;
+        b) BACKUP="true"
+            ;;
         *) usage
             ;;
     esac
 done
+
+if [[ ${BACKUP} != "" ]]; then
+    echo "Backing up configuration (docker-volumes)"
+
+    BACKUP_DATE=$(date +%A)
+    BACKUP_FILENAME="docker-volumes-${BACKUP_DATE}.tar.gz"
+    sudo tar czpf /home/dougie/buffalo/backup/docker-volumes/${BACKUP_FILENAME} /media/dougie/mywd1/docker-volumes
+fi
 
 # Update images
 echo "Pulling latest htpc images..."

@@ -15,9 +15,9 @@ services:
         volumes:
             - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
             - ./nginx/html:/var/www
-            - ${DOCKER_VOLUME}/letsencrypt/dh-param/dhparam-4096.pem:/etc/ssl/certs/dhparam-4096.pem
-            - ${DOCKER_VOLUME}/letsencrypt/conf/live/dougie-fresh.xyz/fullchain.pem:/etc/letsencrypt/live/dougie-fresh.xyz/fullchain.pem
-            - ${DOCKER_VOLUME}/letsencrypt/conf/live/dougie-fresh.xyz/privkey.pem:/etc/letsencrypt/live/dougie-fresh.xyz/privkey.pem
+            - ${HOME}/htpc-letsencrypt/dh-param/dhparam-4096.pem:/etc/ssl/certs/dhparam-4096.pem
+            - ${HOME}/htpc-letsencrypt/conf/live/dougie-fresh.xyz/fullchain.pem:/etc/letsencrypt/live/dougie-fresh.xyz/fullchain.pem
+            - ${HOME}/htpc-letsencrypt/conf/live/dougie-fresh.xyz/privkey.pem:/etc/letsencrypt/live/dougie-fresh.xyz/privkey.pem
         networks:
             - htpc_internal
 
@@ -66,7 +66,7 @@ services:
             - ${MEDIA_HOME}/mytoshiba1:${MEDIA_HOME}/mytoshiba1
             - ${MEDIA_HOME}/toshiba5tb:${MEDIA_HOME}/toshiba5tb
             - ${BUFFALO_HOME}/media:${BUFFALO_HOME}/media
-            - ${MEDIA_HOME}/mywd1/Downloads:/Downloads
+            - ${MEDIA_HOME}/myrepo/downloads:/downloads
             - ${DOCKER_VOLUME}/sabnzbd:/config
         ports:
             - 8888:8888
@@ -89,7 +89,7 @@ services:
             - ${MEDIA_HOME}/mytoshiba1:${MEDIA_HOME}/mytoshiba1
             - ${MEDIA_HOME}/toshiba5tb:${MEDIA_HOME}/toshiba5tb
             - ${BUFFALO_HOME}/media:${BUFFALO_HOME}/media
-            - ${MEDIA_HOME}/mywd1/Downloads:/Downloads
+            - ${MEDIA_HOME}/myrepo/downloads:/downloads
             - ${DOCKER_VOLUME}/radarr:/config
         ports:
             - 7878:7878
@@ -111,7 +111,7 @@ services:
             - ${MEDIA_HOME}/mytoshiba1:${MEDIA_HOME}/mytoshiba1
             - ${MEDIA_HOME}/toshiba5tb:${MEDIA_HOME}/toshiba5tb
             - ${BUFFALO_HOME}/media:${BUFFALO_HOME}/media
-            - ${MEDIA_HOME}/mywd1/Downloads:/Downloads
+            - ${MEDIA_HOME}/myrepo/downloads:/downloads
             - ${DOCKER_VOLUME}/sonarr:/config
         ports:
             - 8989:8989
