@@ -92,7 +92,7 @@ services:
             - ${MEDIA_HOME}/myrepo/downloads:/downloads
             - ${DOCKER_VOLUME}/radarr:/config
         ports:
-            - 7878:7878
+            - 7979:7979
         environment:
             - PUID=${PUID}
             - PGID=${PGID}
