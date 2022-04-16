@@ -34,9 +34,9 @@ services:
             - VERSION=latest
         volumes:
             - ${MEDIA_HOME}/mywd1/docker-volumes/plex:/config
-            - ${MEDIA_HOME}/myrepo:${MEDIA_HOME}/myrepo
-            - ${MEDIA_HOME}/mytoshiba1:${MEDIA_HOME}/mytoshiba1
-            - ${MEDIA_HOME}/toshiba5tb:${MEDIA_HOME}/toshiba5tb
+            - ${MEDIA_HOME}/dougie/myrepo:${MEDIA_HOME}/myrepo
+            - ${MEDIA_HOME}/dougie/mytoshiba1:${MEDIA_HOME}/mytoshiba1
+            - ${MEDIA_HOME}/dougie/toshiba5tb:${MEDIA_HOME}/toshiba5tb
             - ${MEDIA_HOME}/easystore:${MEDIA_HOME}/easystore
             - ${BUFFALO_HOME}/media:${BUFFALO_HOME}/media
             - ${MEDIA_HOME}/mywd1/docker-volumes/plex/transcode:/transcode
