@@ -23,7 +23,7 @@ services:
 
     plex:
         container_name: plex
-        image: linuxserver/plex
+        image: lscr.io/linuxserver/plex
         networks:
             - htpc_internal
         environment:
@@ -33,13 +33,13 @@ services:
             - PGID=${PGID}
             - VERSION=latest
         volumes:
-            - ${MEDIA_HOME}/mywd1/docker-volumes/plex:/config
+            - ${DOCKER_VOLUME}/plex:/config
+            - ${DOCKER_VOLUME}/plex/transcode:/transcode
             - ${MEDIA_HOME}/myrepo:${MEDIA_HOME}/myrepo
             - ${MEDIA_HOME}/dougie/mytoshiba1:${MEDIA_HOME}/mytoshiba1
             - ${MEDIA_HOME}/dougie/toshiba5tb:${MEDIA_HOME}/toshiba5tb
             - ${MEDIA_HOME}/easystore:${MEDIA_HOME}/easystore
             - ${BUFFALO_HOME}/media:${BUFFALO_HOME}/media
-            - ${MEDIA_HOME}/mywd1/docker-volumes/plex/transcode:/transcode
         ports:
             - '32400:32400'
             - '3005:3005'
@@ -54,7 +54,7 @@ services:
 
     sabnzbd:
         container_name: sabnzbd
-        image: ghcr.io/linuxserver/sabnzbd
+        image: lscr.io/linuxserver/sabnzbd
         # build: ./sabnzbd
         networks:
             - htpc_internal
@@ -151,7 +151,7 @@ services:
             - production-nginx
         restart: unless-stopped
         volumes:
-          - ${MEDIA_HOME}/mywd1/docker-volumes/plex/Library/Application Support/Plex Media Server/Logs:/logs:ro
+          - ${DOCKER_VOLUME}/plex/Library/Application Support/Plex Media Server/Logs:/logs:ro
           - ${DOCKER_VOLUME}/plexpy:/config
         ports:
           - 18181:8181
