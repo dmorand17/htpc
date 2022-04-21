@@ -164,14 +164,18 @@ services:
 
     organizr:
         container_name: organizr
-        image: lsiocommunity/organizr
+        image: organizr/organizr
         restart: unless-stopped
+        depends_on:
+          - production-nginx
         ports:
-          - 8899:8899
+          - 8899:80
         environment:
           - PUID=${PUID}
           - PGID=${PGID}
           - TZ=${TZ}
+        volumes:
+            - ${DOCKER_VOLUME}/organizr:/config
         networks:
           - htpc_internal
 
