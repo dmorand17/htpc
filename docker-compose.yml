@@ -111,8 +111,8 @@ services:
             - production-nginx
         restart: unless-stopped
         volumes:
-            - ${MEDIA_HOME}/dougie/mytoshiba1:${MEDIA_HOME}/dougie/mytoshiba1
-            - ${MEDIA_HOME}/dougie/toshiba5tb:${MEDIA_HOME}/dougie/toshiba5tb
+            - ${MEDIA_HOME}/dougie/mytoshiba1:${MEDIA_HOME}/mytoshiba1
+            - ${MEDIA_HOME}/dougie/toshiba5tb:${MEDIA_HOME}/toshiba5tb
             - ${MEDIA_HOME}/easystore:${MEDIA_HOME}/easystore
             - ${BUFFALO_HOME}/media:${BUFFALO_HOME}/media
             - ${MEDIA_HOME}/myrepo/downloads:/downloads
