@@ -16,6 +16,7 @@ services:
             - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
             - ./nginx/proxy-control.conf:/etc/nginx/conf.d/proxy-control.conf
             - ./nginx/html:/var/www
+            - ${DOCKER_VOLUME}/nginx/logs:/var/log/nginx
             - ${HOME}/htpc-letsencrypt/dh-param/dhparam-4096.pem:/etc/ssl/certs/dhparam-4096.pem
             - ${HOME}/htpc-letsencrypt/conf/live/dougie-fresh.xyz/fullchain.pem:/etc/letsencrypt/live/dougie-fresh.xyz/fullchain.pem
             - ${HOME}/htpc-letsencrypt/conf/live/dougie-fresh.xyz/privkey.pem:/etc/letsencrypt/live/dougie-fresh.xyz/privkey.pem
