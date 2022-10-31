@@ -70,7 +70,7 @@ services:
             - ${MEDIA_HOME}/dougie/toshiba5tb:${MEDIA_HOME}/toshiba5tb
             - ${BUFFALO_HOME}/media:${BUFFALO_HOME}/media
             - ${MEDIA_HOME}/easystore:${MEDIA_HOME}/easystore
-            - ${MEDIA_HOME}/myrepo/downloads:/downloads
+            - ${MEDIA_HOME}/mywd1/downloads:/downloads
             - ${DOCKER_VOLUME}/sabnzbd:/config
         ports:
             - 8888:8888
@@ -94,7 +94,7 @@ services:
             - ${MEDIA_HOME}/dougie/toshiba5tb:${MEDIA_HOME}/toshiba5tb
             - ${MEDIA_HOME}/easystore:${MEDIA_HOME}/easystore
             - ${BUFFALO_HOME}/media:${BUFFALO_HOME}/media
-            - ${MEDIA_HOME}/myrepo/downloads:/downloads
+            - ${MEDIA_HOME}/mywd1/downloads:/downloads
             - ${DOCKER_VOLUME}/radarr:/config
         ports:
             - 7979:7979
@@ -117,7 +117,7 @@ services:
             - ${MEDIA_HOME}/dougie/toshiba5tb:${MEDIA_HOME}/toshiba5tb
             - ${MEDIA_HOME}/easystore:${MEDIA_HOME}/easystore
             - ${BUFFALO_HOME}/media:${BUFFALO_HOME}/media
-            - ${MEDIA_HOME}/myrepo/downloads:/downloads
+            - ${MEDIA_HOME}/mywd1/downloads:/downloads
             - ${DOCKER_VOLUME}/sonarr:/config
         ports:
             - 8989:8989
