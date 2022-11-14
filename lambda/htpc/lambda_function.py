@@ -20,9 +20,10 @@ def notify_slack(event):
     try:
         sns = event["Records"][0]["Sns"]
         message = json.loads(sns["Message"])
+        message_detail = message.get("detail")
         notification_type = sns.get("Type")
-        notification_title = message.get("alarmName")
-        notification_text = message.get("reason")
+        notification_title = message_detail.get("alarmName")
+        notification_text = message_detail.get("state")["reason"]
         msg = f"*{notification_title}*\n\n`{notification_text}`"
 
     except KeyError as e:
@@ -38,21 +39,15 @@ def notify_slack(event):
     else:
         return {"status": "failed"}
 
-
 def publish_sns(event):
     SNS_ARN = os.getenv("SNS_ARN")
     client = boto3.client("sns")
-    resp = client.publish(
-        TargetArn=SNS_ARN,
-        Message=json.dumps(event, indent=2),
-        Subject="HTPC Status Update",
-    )
+    resp = client.publish(TargetArn=SNS_ARN, Message=json.dumps(event,indent=2), Subject="HTPC Status Update")
 
     if resp["ResponseMetadata"]["HTTPStatusCode"] == 200:
         return {"status": "ok"}
     else:
         return {"status": "failed"}
-
 
 def lambda_handler(event, context):
     logger.debug("## ENVIRONMENT VARIABLES")
@@ -65,7 +60,7 @@ def lambda_handler(event, context):
     response = notify_slack(event)
 
     # publish event to SNS queue to send email
-    # response = publish_sns(event)
+    response = publish_sns(event)
 
     logger.debug("## RESPONSE")
     logger.debug(f"response [Lambda] -> {response}")
