@@ -1,0 +1,22 @@
+{
+    "Records": [
+        {
+            "EventSource": "aws:sns",
+            "EventVersion": "1.0",
+            "EventSubscriptionArn": "arn:aws:sns:us-east-1:266101688007:NotifyMe:522c628d-2637-4aea-8770-0f055da5c845",
+            "Sns": {
+                "Type": "Notification",
+                "MessageId": "6d51e729-9166-501c-bb22-bccef9fbd59f",
+                "TopicArn": "arn:aws:sns:us-east-1:266101688007:NotifyMe",
+                "Subject": "ALARM: \"dougie-fresh-xyz-awsroute53-e061fd45-be8d-468e-a93a-b2bb183abf9...\" in US East (N. Virginia)",
+                "Message": "{\"AlarmName\":\"dougie-fresh-xyz-awsroute53-e061fd45-be8d-468e-a93a-b2bb183abf9b-Low-HealthCheckStatus\",\"AlarmDescription\":null,\"AWSAccountId\":\"266101688007\",\"AlarmConfigurationUpdatedTimestamp\":\"2022-10-28T20:13:36.142+0000\",\"NewStateValue\":\"ALARM\",\"NewStateReason\":\"Threshold Crossed: 1 datapoint [0.0 (10/11/22 20:59:00)] was less than the threshold (1.0).\",\"StateChangeTime\":\"2022-11-10T21:00:13.513+0000\",\"Region\":\"US East (N. Virginia)\",\"AlarmArn\":\"arn:aws:cloudwatch:us-east-1:266101688007:alarm:dougie-fresh-xyz-awsroute53-e061fd45-be8d-468e-a93a-b2bb183abf9b-Low-HealthCheckStatus\",\"OldStateValue\":\"OK\",\"OKActions\":[],\"AlarmActions\":[\"arn:aws:sns:us-east-1:266101688007:NotifyMe\"],\"InsufficientDataActions\":[],\"Trigger\":{\"MetricName\":\"HealthCheckStatus\",\"Namespace\":\"AWS/Route53\",\"StatisticType\":\"Statistic\",\"Statistic\":\"MINIMUM\",\"Unit\":null,\"Dimensions\":[{\"value\":\"e061fd45-be8d-468e-a93a-b2bb183abf9b\",\"name\":\"HealthCheckId\"}],\"Period\":60,\"EvaluationPeriods\":1,\"ComparisonOperator\":\"LessThanThreshold\",\"Threshold\":1.0,\"TreatMissingData\":\"\",\"EvaluateLowSampleCountPercentile\":\"\"}}",
+                "Timestamp": "2022-11-10T21:00:13.566Z",
+                "SignatureVersion": "1",
+                "Signature": "HYBMt5TQvQOKXPkpAMDo90zksICWeKEjezPFAR1qYoEYyFkHpcXZUKP2FJgoaPhVshMWwdus2EcDcVMwgqCBgLb3Qtqh3tZ+hZQFpVfxBCXzh3BfKL2ek6urm+SX3yCydrZOb8pB1MKIIIRyIGsZEEoyGpV1lMvcsneavxxsHRjNnZyTCJQUdgx1yh/yfeov6VozZIrArK5/X3eHOj+kCAoelMP8j9hCHmHhn7IjjHTUCBTfPQgoRMRmU9e6B4kz59GyijJ5I7c6pJhbpU4JlLkoeRlMkrdjJTNXCOoAQtkX2La4I1H+ceK+Gh5zPGACw1VMD1kgSWvjJQp3SdIvVQ==",
+                "SigningCertUrl": "https://sns.us-east-1.amazonaws.com/SimpleNotificationService-56e67fcb41f6fec09b0196692625d385.pem",
+                "UnsubscribeUrl": "https://sns.us-east-1.amazonaws.com/?Action=Unsubscribe&SubscriptionArn=arn:aws:sns:us-east-1:266101688007:NotifyMe:522c628d-2637-4aea-8770-0f055da5c845",
+                "MessageAttributes": {}
+            }
+        }
+    ]
+}

@@ -1,3 +1,9 @@
 plex/
 **/\.env
 _backups
+**/.venv
+
+**/__pycache__/
+
+**/lambda_package.zip
+lambda/**/package

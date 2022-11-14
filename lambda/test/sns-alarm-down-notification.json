@@ -1,0 +1,22 @@
+{
+    "Records": [
+        {
+            "EventSource": "aws:sns",
+            "EventVersion": "1.0",
+            "EventSubscriptionArn": "arn:aws:sns:us-east-1:266101688007:NotifyMe:522c628d-2637-4aea-8770-0f055da5c845",
+            "Sns": {
+                "Type": "Notification",
+                "MessageId": "e45d456d-b37d-5c96-8807-1e8a0ba27511",
+                "TopicArn": "arn:aws:sns:us-east-1:266101688007:NotifyMe",
+                "Subject": null,
+                "Message": "{\"version\":\"0\",\"id\":\"fa81df78-9f2c-092d-62aa-85fcf5aaab88\",\"detail-type\":\"CloudWatch Alarm State Change\",\"source\":\"aws.cloudwatch\",\"account\":\"266101688007\",\"time\":\"2022-11-11T02:42:38Z\",\"region\":\"us-east-1\",\"resources\":[\"arn:aws:cloudwatch:us-east-1:266101688007:alarm:dougie-fresh-xyz-awsroute53-e061fd45-be8d-468e-a93a-b2bb183abf9b-Low-HealthCheckStatus\"],\"detail\":{\"alarmName\":\"dougie-fresh-xyz-awsroute53-e061fd45-be8d-468e-a93a-b2bb183abf9b-Low-HealthCheckStatus\",\"state\":{\"value\":\"ALARM\",\"reason\":\"Threshold Crossed: 1 out of the last 1 datapoints [0.0 (11/11/22 02:41:00)] was less than the threshold (1.0) (minimum 1 datapoint for OK -> ALARM transition).\",\"reasonData\":\"{\\\"version\\\":\\\"1.0\\\",\\\"queryDate\\\":\\\"2022-11-11T02:42:38.831+0000\\\",\\\"startDate\\\":\\\"2022-11-11T02:41:00.000+0000\\\",\\\"statistic\\\":\\\"Minimum\\\",\\\"period\\\":60,\\\"recentDatapoints\\\":[0.0],\\\"threshold\\\":1.0,\\\"evaluatedDatapoints\\\":[{\\\"timestamp\\\":\\\"2022-11-11T02:41:00.000+0000\\\",\\\"sampleCount\\\":3.0,\\\"value\\\":0.0}]}\",\"timestamp\":\"2022-11-11T02:42:38.832+0000\"},\"previousState\":{\"value\":\"OK\",\"reason\":\"Threshold Crossed: 1 datapoint [1.0 (10/11/22 21:06:00)] was not less than the threshold (1.0).\",\"reasonData\":\"{\\\"version\\\":\\\"1.0\\\",\\\"queryDate\\\":\\\"2022-11-10T21:07:13.532+0000\\\",\\\"startDate\\\":\\\"2022-11-10T21:06:00.000+0000\\\",\\\"statistic\\\":\\\"Minimum\\\",\\\"period\\\":60,\\\"recentDatapoints\\\":[1.0],\\\"threshold\\\":1.0,\\\"evaluatedDatapoints\\\":[{\\\"timestamp\\\":\\\"2022-11-10T21:06:00.000+0000\\\",\\\"sampleCount\\\":3.0,\\\"value\\\":1.0}]}\",\"timestamp\":\"2022-11-10T21:07:13.550+0000\"},\"configuration\":{\"metrics\":[{\"id\":\"36c231b6-0932-c7a3-fc2e-b833f6921c6d\",\"metricStat\":{\"metric\":{\"namespace\":\"AWS/Route53\",\"name\":\"HealthCheckStatus\",\"dimensions\":{\"HealthCheckId\":\"e061fd45-be8d-468e-a93a-b2bb183abf9b\"}},\"period\":60,\"stat\":\"Minimum\"},\"returnData\":true}]}}}",
+                "Timestamp": "2022-11-11T02:42:39.415Z",
+                "SignatureVersion": "1",
+                "Signature": "1j1tGPB5Zi9/PbTT5aTXsNxQTva6KyNMnAytkeEjCYetfC72/R0izUZFfYbLZtXM/p/SC8o9tCxoaTelpvRvRq1/9PJu2DYa/vFyKr9j/PilYxf8sYKHeBoCwDdIziBtNYmtjUa6iTtPXdzGkA+0fzHYu7m70HsT/YPo46rt5h6fs4hoP1nLFG6eybSiJVHDcLLX4FwyZJXqG25hsrW3hEOgwFpLpuJ9jc7nHqF9O0drxZM2HFEEqM3Dc9zPJIxKM+P4X4X/+MxcBwbY6VQApx1RS8wiSI221LFVhrbWlqAZSdCYQBrcyGckYSsFh41SAZbA8UGej3EoUyZoageQVA==",
+                "SigningCertUrl": "https://sns.us-east-1.amazonaws.com/SimpleNotificationService-56e67fcb41f6fec09b0196692625d385.pem",
+                "UnsubscribeUrl": "https://sns.us-east-1.amazonaws.com/?Action=Unsubscribe&SubscriptionArn=arn:aws:sns:us-east-1:266101688007:NotifyMe:522c628d-2637-4aea-8770-0f055da5c845",
+                "MessageAttributes": {}
+            }
+        }
+    ]
+}

@@ -35,8 +35,8 @@ services:
             - PGID=${PGID}
             - VERSION=latest
         volumes:
-            - ${DOCKER_VOLUME}/plex:/config
-            - ${DOCKER_VOLUME}/plex/transcode:/transcode
+            - ${PLEX_VOLUME}/plex:/config
+            - ${PLEX_VOLUME}/plex/transcode:/transcode
             - ${MEDIA_HOME}/myrepo:${MEDIA_HOME}/myrepo
             - ${MEDIA_HOME}/dougie/mytoshiba1:${MEDIA_HOME}/mytoshiba1
             - ${MEDIA_HOME}/dougie/toshiba5tb:${MEDIA_HOME}/toshiba5tb

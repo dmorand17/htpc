@@ -1,0 +1,18 @@
+{
+  "Comment": "Update record to reflect new IP address for a system ",
+  "Changes": [
+    {
+      "Action": "UPSERT",
+      "ResourceRecordSet": {
+        "Name": "dougie-fresh.xyz",
+        "Type": "A",
+        "TTL": 60,
+        "ResourceRecords": [
+          {
+            "Value": "72.85.185.160"
+          }
+        ]
+      }
+    }
+  ]
+}
