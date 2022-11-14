@@ -5,5 +5,5 @@ _backups
 
 **/__pycache__/
 
-**/lambda_package.zip
+lambda-package.zip
 lambda/**/package
