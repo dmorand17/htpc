@@ -8,6 +8,11 @@ from pathlib import Path
 
 from htpc.lambda_function import *
 
+# Enable this section to show logger debug output
+#logger = logging.getLogger()
+#logger.level = logging.DEBUG
+#stream_handler = logging.StreamHandler(sys.stdout)
+#logger.addHandler(stream_handler)
 
 class FunctionTest(TestCase):
     def setUp(self):

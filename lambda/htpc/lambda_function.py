@@ -3,6 +3,7 @@ import os
 import logging
 import json
 import boto3
+import sys
 
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
@@ -20,11 +21,13 @@ def notify_slack(event):
     try:
         sns = event["Records"][0]["Sns"]
         message = json.loads(sns["Message"])
+        logger.debug(f"message -> {message}")
         message_detail = message.get("detail")
         notification_type = sns.get("Type")
-        notification_title = message_detail.get("alarmName")
-        notification_text = message_detail.get("state")["reason"]
-        msg = f"*{notification_title}*\n\n`{notification_text}`"
+        notification_title = message.get("detail-type")
+        state_value = message_detail.get("state")["value"]
+        state_reason = message_detail.get("state")["reason"]
+        msg = f"*[{state_value}]* {notification_title}\n\n`{state_reason}`"
 
     except KeyError as e:
         logger.error("Error handling event")
@@ -43,6 +46,7 @@ def publish_sns(event):
     SNS_ARN = os.getenv("SNS_ARN")
     client = boto3.client("sns")
     resp = client.publish(TargetArn=SNS_ARN, Message=json.dumps(event,indent=2), Subject="HTPC Status Update")
+    client.close()
 
     if resp["ResponseMetadata"]["HTTPStatusCode"] == 200:
         return {"status": "ok"}
