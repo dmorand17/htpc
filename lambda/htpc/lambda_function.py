@@ -13,21 +13,25 @@ logger.setLevel(logging.DEBUG)
 # HTTPConnection.debuglevel = 1
 
 
+def get_cloudwatch_alarm(event):
+    sns_record = event["Records"][0]["Sns"]
+    message = json.loads(sns_record["Message"])
+    logger.info(f"message -> {json.dumps(message,indent=2)}")
+    message_detail = message.get("detail")
+    return {
+        'title': message.get("detail-type"),
+        'state_value': message_detail.get("state")["value"],
+        'state_reason': message_detail.get("state")["reason"]
+    }
+
 def notify_slack(event):
     slackhook_url = os.getenv("SLACK_HOOK_URL")
     if slackhook_url is None:
         return {"status": "FAILED", "message": "Failed to invoke slack hook"}
 
     try:
-        sns = event["Records"][0]["Sns"]
-        message = json.loads(sns["Message"])
-        logger.debug(f"message -> {message}")
-        message_detail = message.get("detail")
-        notification_type = sns.get("Type")
-        notification_title = message.get("detail-type")
-        state_value = message_detail.get("state")["value"]
-        state_reason = message_detail.get("state")["reason"]
-        msg = f"*[{state_value}]* {notification_title}\n\n`{state_reason}`"
+        cloudwatch_alarm = get_cloudwatch_alarm(event)
+        msg = f"*[{cloudwatch_alarm['state_value']}]* {cloudwatch_alarm['title']}\n\n`{cloudwatch_alarm['state_reason']}`"
 
     except KeyError as e:
         logger.error("Error handling event")
@@ -37,7 +41,6 @@ def notify_slack(event):
     headers = {"content-type": "application/json"}
     r = requests.post(slackhook_url, headers=headers, data=json.dumps(data))
     if r.status_code == 200:
-        logger.debug(f"response [SLACK] -> {r}, {r.text}")
         return {"status": "ok"}
     else:
         return {"status": "failed"}
@@ -45,8 +48,10 @@ def notify_slack(event):
 def publish_sns(event):
     SNS_ARN = os.getenv("SNS_ARN")
     client = boto3.client("sns")
-    resp = client.publish(TargetArn=SNS_ARN, Message=json.dumps(event,indent=2), Subject="HTPC Status Update")
-    client.close()
+    cloudwatch_alarm = get_cloudwatch_alarm(event)
+    msg = f"[{cloudwatch_alarm['state_value']}] {cloudwatch_alarm['title']}\n{cloudwatch_alarm['state_reason']}\n\n{json.dumps(event,indent=2)}"
+    resp = client.publish(TargetArn=SNS_ARN, Message=msg, Subject="HTPC Status Update")
+    # client.close()
 
     if resp["ResponseMetadata"]["HTTPStatusCode"] == 200:
         return {"status": "ok"}
@@ -58,7 +63,7 @@ def lambda_handler(event, context):
     logger.debug(os.environ)
 
     logger.debug("## EVENT")
-    logger.debug(f"event-> {json.dumps(event)}")
+    logger.debug(f"event-> {json.dumps(event, indent=2)}")
 
     # Send event to slack channel
     response = notify_slack(event)
