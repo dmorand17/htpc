@@ -19,10 +19,12 @@ def get_cloudwatch_alarm(event):
     logger.info(f"message -> {json.dumps(message,indent=2)}")
     message_detail = message.get("detail")
     return {
-        'title': message.get("detail-type"),
-        'state_value': message_detail.get("state")["value"],
-        'state_reason': message_detail.get("state")["reason"]
+        "title": message.get("detail-type"),
+        "timestamp": message.get("Timestamp"),
+        "state_value": message_detail.get("state")["value"],
+        "state_reason": message_detail.get("state")["reason"],
     }
+
 
 def notify_slack(event):
     slackhook_url = os.getenv("SLACK_HOOK_URL")
@@ -45,18 +47,21 @@ def notify_slack(event):
     else:
         return {"status": "failed"}
 
+
 def publish_sns(event):
     SNS_ARN = os.getenv("SNS_ARN")
     client = boto3.client("sns")
     cloudwatch_alarm = get_cloudwatch_alarm(event)
+    timestamp = cloudwatch_alarm["timestamp"]
     msg = f"[{cloudwatch_alarm['state_value']}] {cloudwatch_alarm['title']}\n{cloudwatch_alarm['state_reason']}\n\n{json.dumps(event,indent=2)}"
-    resp = client.publish(TargetArn=SNS_ARN, Message=msg, Subject="HTPC Status Update")
+    resp = client.publish(TargetArn=SNS_ARN, Message=msg, Subject=f"HTPC Update - {timestamp}")
     # client.close()
 
     if resp["ResponseMetadata"]["HTTPStatusCode"] == 200:
         return {"status": "ok"}
     else:
         return {"status": "failed"}
+
 
 def lambda_handler(event, context):
     logger.debug("## ENVIRONMENT VARIABLES")
