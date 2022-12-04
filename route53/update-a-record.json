@@ -9,7 +9,7 @@
         "TTL": 60,
         "ResourceRecords": [
           {
-            "Value": "72.85.185.160"
+            "Value": "${my_ip}"
           }
         ]
       }

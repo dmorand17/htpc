@@ -1,4 +1,19 @@
-#
+
+# Renew certificate command
+docker run -it --rm \
+-v /home/dougie/htpc-letsencrypt/conf:/etc/letsencrypt \
+-v /home/dougie/htpc-letsencrypt/lib:/var/lib/letsencrypt \
+-v /home/dougie/htpc-letsencrypt/log:/var/log/letsencrypt \
+-v /home/dougie/htpc/letsencrypt/html:/var/www \
+certbot/certbot \
+certonly --webroot -w /var/www \
+--email dmorand@gmail.com --agree-tos --no-eff-email \
+-d dougie-fresh.xyz -d dougie-fresh.us
+
+
+###########
+    NOTES
+############
 
 # Rather than using the docker-compose.yml file a container can be spun up as follows
 #

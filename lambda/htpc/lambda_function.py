@@ -20,7 +20,7 @@ def get_cloudwatch_alarm(event):
     message_detail = message.get("detail")
     return {
         "title": message.get("detail-type"),
-        "timestamp": message.get("Timestamp"),
+        "time": message.get("time"),
         "state_value": message_detail.get("state")["value"],
         "state_reason": message_detail.get("state")["reason"],
     }
@@ -52,7 +52,7 @@ def publish_sns(event):
     SNS_ARN = os.getenv("SNS_ARN")
     client = boto3.client("sns")
     cloudwatch_alarm = get_cloudwatch_alarm(event)
-    timestamp = cloudwatch_alarm["timestamp"]
+    timestamp = cloudwatch_alarm["time"]
     msg = f"[{cloudwatch_alarm['state_value']}] {cloudwatch_alarm['title']}\n{cloudwatch_alarm['state_reason']}\n\n{json.dumps(event,indent=2)}"
     resp = client.publish(TargetArn=SNS_ARN, Message=msg, Subject=f"HTPC Update - {timestamp}")
     # client.close()
