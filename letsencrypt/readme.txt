@@ -1,10 +1,10 @@
 
 # Renew certificate command
 docker run -it --rm \
--v /home/dougie/htpc-letsencrypt/conf:/etc/letsencrypt \
--v /home/dougie/htpc-letsencrypt/lib:/var/lib/letsencrypt \
--v /home/dougie/htpc-letsencrypt/log:/var/log/letsencrypt \
--v /home/dougie/htpc/letsencrypt/html:/var/www \
+-v /home/htpc-user/htpc-letsencrypt/conf:/etc/letsencrypt \
+-v /home/htpc-user/htpc-letsencrypt/lib:/var/lib/letsencrypt \
+-v /home/htpc-user/htpc-letsencrypt/log:/var/log/letsencrypt \
+-v /home/htpc-user/htpc/letsencrypt/html:/var/www \
 certbot/certbot \
 certonly --webroot -w /var/www \
 --email dmorand@gmail.com --agree-tos --no-eff-email \
@@ -26,10 +26,10 @@ nginx:alpine
 
 # Run letsencrypt in test mode
 docker run -it --rm \
--v /home/dougie/htpc-letsencrypt/conf:/etc/letsencrypt \
--v /home/dougie/htpc-letsencrypt/lib:/var/lib/letsencrypt \
--v /home/dougie/htpc-letsencrypt/log:/var/log/letsencrypt \
--v /home/dougie/htpc/letsencrypt/html:/var/www \
+-v /home/htpc-user/htpc-letsencrypt/conf:/etc/letsencrypt \
+-v /home/htpc-user/htpc-letsencrypt/lib:/var/lib/letsencrypt \
+-v /home/htpc-user/htpc-letsencrypt/log:/var/log/letsencrypt \
+-v /home/htpc-user/htpc/letsencrypt/html:/var/www \
 certbot/certbot \
 certonly --webroot -w /var/www \
 --register-unsafely-without-email --agree-tos \
@@ -38,21 +38,11 @@ certonly --webroot -w /var/www \
 
 # Run letsencrypt to get prod cert
 docker run -it --rm \
--v /home/dougie/htpc-letsencrypt/conf:/etc/letsencrypt \
--v /home/dougie/htpc-letsencrypt/lib:/var/lib/letsencrypt \
--v /home/dougie/htpc-letsencrypt/log:/var/log/letsencrypt \
--v /home/dougie/htpc/letsencrypt/html:/var/www \
+-v /home/htpc-user/htpc-letsencrypt/conf:/etc/letsencrypt \
+-v /home/htpc-user/htpc-letsencrypt/lib:/var/lib/letsencrypt \
+-v /home/htpc-user/htpc-letsencrypt/log:/var/log/letsencrypt \
+-v /home/htpc-user/htpc/letsencrypt/html:/var/www \
 certbot/certbot \
 certonly --webroot -w /var/www \
 --email dmorand@gmail.com --agree-tos --no-eff-email \
--d dougie-fresh.xyz -d dougie-fresh.us
-
-# Renew certificates
-docker run -t --rm \
--v /home/dougie/htpc-letsencrypt/conf:/etc/letsencrypt \
--v /home/dougie/htpc-letsencrypt/lib:/var/lib/letsencrypt \
--v /home/dougie/htpc-letsencrypt/log:/var/log/letsencrypt \
--v /home/dougie/htpc/letsencrypt/html:/var/www \
-certbot/certbot \
-renew --dry-run \
 -d dougie-fresh.xyz -d dougie-fresh.us

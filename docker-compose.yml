@@ -13,8 +13,8 @@ services:
             - "80:80"
             - "443:443"
         volumes:
-            - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
-            - ./nginx/proxy-control.conf:/etc/nginx/conf.d/proxy-control.conf
+            - ./nginx/conf:/etc/nginx/conf.d
+            - ./nginx/includes:/etc/nginx/includes
             - ./nginx/html:/var/www
             - ${HTPC_VOLUME}/nginx/logs:/var/log/nginx
             - ${HOME}/htpc-letsencrypt/dh-param/dhparam-4096.pem:/etc/ssl/certs/dhparam-4096.pem
@@ -37,11 +37,11 @@ services:
         volumes:
             - ${HTPC_VOLUME}/plex:/config
             - ${HTPC_VOLUME}/plex/transcode:/transcode
-            - ${MEDIA_HOME}/myrepo:${MEDIA_HOME}/myrepo
-            - ${MEDIA_HOME}/dougie/mytoshiba1:${MEDIA_HOME}/mytoshiba1
-            - ${MEDIA_HOME}/dougie/toshiba5tb:${MEDIA_HOME}/toshiba5tb
-            - ${MEDIA_HOME}/easystore:${MEDIA_HOME}/easystore
-            - ${BUFFALO_HOME}/media:${BUFFALO_HOME}/media
+            - ${MNT}/myrepo:${MEDIA_HOME}/myrepo
+            - ${MNT}/mytoshiba1:${MEDIA_HOME}/mytoshiba1
+            - ${MNT}/toshiba5tb:${MEDIA_HOME}/toshiba5tb
+            - ${MNT}/easystore:${MEDIA_HOME}/easystore
+            - ${MNT}/buffalo/media:${BUFFALO_HOME}/media
         ports:
             - '32400:32400'
             - '3005:3005'
@@ -64,13 +64,13 @@ services:
             - production-nginx
         restart: unless-stopped
         volumes:
-            - ${MEDIA_HOME}/mywd1:${MEDIA_HOME}/mywd1
-            - ${MEDIA_HOME}/myrepo:${MEDIA_HOME}/myrepo
-            - ${MEDIA_HOME}/dougie/mytoshiba1:${MEDIA_HOME}/mytoshiba1
-            - ${MEDIA_HOME}/dougie/toshiba5tb:${MEDIA_HOME}/toshiba5tb
-            - ${BUFFALO_HOME}/media:${BUFFALO_HOME}/media
-            - ${MEDIA_HOME}/easystore:${MEDIA_HOME}/easystore
-            - ${MEDIA_HOME}/easystore/downloads:/downloads
+            - ${MNT}/mywd1:${MEDIA_HOME}/mywd1
+            - ${MNT}/myrepo:${MEDIA_HOME}/myrepo
+            - ${MNT}/mytoshiba1:${MEDIA_HOME}/mytoshiba1
+            - ${MNT}/toshiba5tb:${MEDIA_HOME}/toshiba5tb
+            - ${MNT}/buffalo/media:${BUFFALO_HOME}/media
+            - ${MNT}/easystore:${MEDIA_HOME}/easystore
+            - ${MNT}/easystore/downloads:/downloads
             - ${HTPC_VOLUME}/sabnzbd:/config
         ports:
             - 8888:8888
@@ -88,13 +88,13 @@ services:
             - production-nginx
         restart: unless-stopped
         volumes:
-            - ${MEDIA_HOME}/mywd1:${MEDIA_HOME}/mywd1
-            - ${MEDIA_HOME}/myrepo:${MEDIA_HOME}/myrepo
-            - ${MEDIA_HOME}/dougie/mytoshiba1:${MEDIA_HOME}/mytoshiba1
-            - ${MEDIA_HOME}/dougie/toshiba5tb:${MEDIA_HOME}/toshiba5tb
-            - ${MEDIA_HOME}/easystore:${MEDIA_HOME}/easystore
-            - ${BUFFALO_HOME}/media:${BUFFALO_HOME}/media
-            - ${MEDIA_HOME}/mywd1/downloads:/downloads
+            - ${MNT}/mywd1:${MEDIA_HOME}/mywd1
+            - ${MNT}/myrepo:${MEDIA_HOME}/myrepo
+            - ${MNT}/mytoshiba1:${MEDIA_HOME}/mytoshiba1
+            - ${MNT}/toshiba5tb:${MEDIA_HOME}/toshiba5tb
+            - ${MNT}/easystore:${MEDIA_HOME}/easystore
+            - ${MNT}/buffalo/media:${BUFFALO_HOME}/media
+            - ${MNT}/easystore/downloads:/downloads
             - ${HTPC_VOLUME}/radarr:/config
         ports:
             - 7979:7979
@@ -113,11 +113,11 @@ services:
             - production-nginx
         restart: unless-stopped
         volumes:
-            - ${MEDIA_HOME}/dougie/mytoshiba1:${MEDIA_HOME}/mytoshiba1
-            - ${MEDIA_HOME}/dougie/toshiba5tb:${MEDIA_HOME}/toshiba5tb
-            - ${MEDIA_HOME}/easystore:${MEDIA_HOME}/easystore
-            - ${BUFFALO_HOME}/media:${BUFFALO_HOME}/media
-            - ${MEDIA_HOME}/mywd1/downloads:/downloads
+            - ${MNT}/mytoshiba1:${MEDIA_HOME}/mytoshiba1
+            - ${MNT}/toshiba5tb:${MEDIA_HOME}/toshiba5tb
+            - ${MNT}/easystore:${MEDIA_HOME}/easystore
+            - ${MNT}/buffalo/media:${BUFFALO_HOME}/media
+            - ${MNT}/easystore/downloads:/downloads
             - ${HTPC_VOLUME}/sonarr:/config
         ports:
             - 8989:8989
