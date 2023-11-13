@@ -7,3 +7,5 @@ _backups
 
 lambda-package.zip
 lambda/**/package
+
+certs
