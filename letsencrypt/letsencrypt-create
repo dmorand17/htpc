@@ -1,0 +1,9 @@
+docker run -it --rm \
+-v /home/htpc-user/htpc-letsencrypt/conf:/etc/letsencrypt \
+-v /home/htpc-user/htpc-letsencrypt/lib:/var/lib/letsencrypt \
+-v /home/htpc-user/htpc-letsencrypt/log:/var/log/letsencrypt \
+-v /home/htpc-user/htpc/letsencrypt/html:/var/www \
+certbot/certbot \
+certonly --webroot -w /var/www \
+--email dmorand@gmail.com --agree-tos --no-eff-email \
+-d dougie-fresh.xyz
