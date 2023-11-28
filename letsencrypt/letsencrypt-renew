@@ -11,15 +11,23 @@ echo "[-] Starting up temporary nginx instance..."
 docker-compose up -d &>/dev/null
 
 echo "[-] Updating certificates..."
+#docker run -it --rm \
+#-v /home/htpc-user/htpc-letsencrypt/conf:/etc/letsencrypt \
+#-v /home/htpc-user/htpc-letsencrypt/lib:/var/lib/letsencrypt \
+#-v /home/htpc-user/htpc-letsencrypt/log:/var/log/letsencrypt \
+#-v /home/htpc-user/htpc/letsencrypt/html:/var/www \
+#certbot/certbot \
+#certonly --webroot -w /var/www \
+#--email dmorand@gmail.com --agree-tos --no-eff-email \
+#-d dougie-fresh.xyz
+
 docker run -it --rm \
 -v /home/htpc-user/htpc-letsencrypt/conf:/etc/letsencrypt \
 -v /home/htpc-user/htpc-letsencrypt/lib:/var/lib/letsencrypt \
 -v /home/htpc-user/htpc-letsencrypt/log:/var/log/letsencrypt \
 -v /home/htpc-user/htpc/letsencrypt/html:/var/www \
 certbot/certbot \
-certonly --webroot -w /var/www \
---email dmorand@gmail.com --agree-tos --no-eff-email \
--d dougie-fresh.xyz -d dougie-fresh.us
+renew --webroot -w /var/www \
 
 docker-compose down &>/dev/null
 pushd /home/htpc-user/htpc &>/dev/null
