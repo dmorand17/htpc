@@ -181,6 +181,22 @@ services:
         networks:
           - htpc_internal
 
+    overseerr:
+        container_name: overseerr
+        image: sctx/overseerr
+        restart: unless-stopped
+        depends_on:
+          - production-nginx
+        ports:
+          - 5055:5055
+        environment:
+          - PUID=${PUID}
+          - PGID=${PGID}
+          - TZ=${TZ}
+        volumes:
+            - ${HTPC_VOLUME}/overseerr:/app/config
+        networks:
+          - htpc_internal
     portainer:
         image: portainer/portainer-ce:latest
         container_name: portainer
